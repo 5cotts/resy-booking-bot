@@ -62,3 +62,16 @@ configure it to look under `com.resy.ResyBookingBot`.
 sbt instance, then type `run`. It will have some output then bring you back to the sbt prompt. Do not exit out of the 
 sbt prompt as this will kill the bot. The bot is running inside the sbt instance and will wake up at the appropriate 
 time to snipe a reservation.
+
+## Debugging
+If you want to debug the HTTP responses, there are a number of debug loggers already present at key points in the code. To activate them,
+change the below line in `src/main/resources/log4js.properties.`
+```
+rootLogger.level = debug
+```
+
+## Future changes
+1) Instead of consuming a static list of reservation times from `resyConfig.conf`, have it ping all times possible on Resy's system. For example, each reservation at a restaurant on Resy is spaced apart by 15 minutes. Say you want to find any available reservation at a given date between 18:00 and 22:00. You could tell the code this range and it will look for the first availability at 18:00, 18:15, 18:30, 18:45, ...,21:30, 21:45, 22:00.
+2) Instead of pinging only one venue ID from `resyConfig.conf`, add the ability to ping multiple restaurants on the same run.
+3) Add a dry run parameter so that you can test making HTTP requests to Resy without actually booking a reservation.
+4) Figure out how to inject the `resyConfig.conf` values as environment variables so that this can be configured to run for different venues at the same time.
